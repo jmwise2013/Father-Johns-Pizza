@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin=“anonymous">
+    <link rel="icon" href="{{url_for('static', filename='pizzalogo3.png')}}">
+    <title>Edit Your Account - Father John's Pizza</title>
+</head>
+
+<body>
+
+    <div class="container d-flex justify-content-between">
+
+        <div class="logo"><img src="{{url_for('static', filename='pizzalogo2.png')}}" alt="Father John's Pizza Logo"
+                width="400px">
+        </div>
+
+        <div class="row g-0" style="margin-top: 40px;">
+            <div class="col">
+                <p style="border-style:solid; padding:10px;  box-shadow: 0px 5px 0px 0px;">
+                    <a href="/dashboard" style="text-decoration: none; color: black;">HOME</a>
+                </p>
+            </div>
+            <div class="col">
+                <p style="border-style:solid; padding:10px; box-shadow: 0 5px 0px 0px;">
+                    <!-- If order is not started, want to go to new order page. If order is started, want to go to finalize order -->
+                    {% if session['order_status'] == 'clear' %}
+                    <a href="/craft_pizza"
+                        style="text-decoration: none; color: black; overflow: hidden; white-space:nowrap">ORDER {% if
+                        session['qty'] > 0
+                        %}({{session['qty']}}){% endif %}</a>
+                    {% endif %}
+
+                    {% if session['order_status'] == 'started' %}
+                    <a href="/go_to_place_order"
+                        style="text-decoration: none; color: black; overflow: hidden; white-space:nowrap">ORDER {% if
+                        session['qty'] > 0
+                        %}({{session['qty']}}){% endif %}</a>
+                    {% endif %}
+                </p>
+            </div>
+            <div class="col">
+                <p style="border-style:solid; padding:10px; box-shadow: 0 5px 0px 0px;  background-color: aquamarine;">
+                    <a href="/edit_user" style="text-decoration: none; color: black;">ACCOUNT</a>
+                </p>
+            </div>
+            <div class="col">
+                <p style="border-style:solid; padding:10px; box-shadow: 0 5px 0px 0px, 5px 5px 0px 0px;">
+                    <a href="/logout" style="text-decoration: none; color: black;">LOGOUT</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- End of NavBar with Logo and Menu -->
+    <div class="container d-flex">
+
+        <div class="col-6 p-5">
+            <h1>Account Info</h1>
+            <form action="/update_user/{{user.id}}" method="post">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                {% for message in messages%}
+                <p style="color: red;">{{message}}</p>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+                <div class="form-group">
+                    <label for="first_name">First Name:</label>
+                    <input type="text" name="first_name" class="form-control" value="{{user.first_name}}">
+                </div>
+                <div class="form-group">
+                    <label for="last_name">Last Name:</label>
+                    <input type="text" name="last_name" class="form-control" value="{{user.last_name}}"">
+                </div>
+                <div class=" form-group">
+                    <label for="email">Email:</label>
+                    <input type="text" name="email" class="form-control" value="{{user.email}}"">
+                </div>
+                <div class=" form-group">
+                    <label for="address">Address:</label>
+                    <input type="text" name="address" class="form-control" value="{{user.address}}"">
+                </div>
+                <div class=" form-group">
+                    <label for="city">City:</label>
+                    <input type="text" name="city" class="form-control" value="{{user.city}}"">
+                </div>
+                <div class=" form-group">
+                    <label for="state">State:</label>
+                    <select id="state" name="state" class="form-control">
+                        <option value="{{user.state}}">{{user.state}}</option>
+                        <option value="AL">Alabama</option>
+                        <option value="AK">Alaska</option>
+                        <option value="AZ">Arizona</option>
+                        <option value="AR">Arkansas</option>
+                        <option value="CA">California</option>
+                        <option value="CO">Colorado</option>
+                        <option value="CT">Connecticut</option>
+                        <option value="DE">Delaware</option>
+                        <option value="DC">District Of Columbia</option>
+                        <option value="FL">Florida</option>
+                        <option value="GA">Georgia</option>
+                        <option value="HI">Hawaii</option>
+                        <option value="ID">Idaho</option>
+                        <option value="IL">Illinois</option>
+                        <option value="IN">Indiana</option>
+                        <option value="IA">Iowa</option>
+                        <option value="KS">Kansas</option>
+                        <option value="KY">Kentucky</option>
+                        <option value="LA">Louisiana</option>
+                        <option value="ME">Maine</option>
+                        <option value="MD">Maryland</option>
+                        <option value="MA">Massachusetts</option>
+                        <option value="MI">Michigan</option>
+                        <option value="MN">Minnesota</option>
+                        <option value="MS">Mississippi</option>
+                        <option value="MO">Missouri</option>
+                        <option value="MT">Montana</option>
+                        <option value="NE">Nebraska</option>
+                        <option value="NV">Nevada</option>
+                        <option value="NH">New Hampshire</option>
+                        <option value="NJ">New Jersey</option>
+                        <option value="NM">New Mexico</option>
+                        <option value="NY">New York</option>
+                        <option value="NC">North Carolina</option>
+                        <option value="ND">North Dakota</option>
+                        <option value="OH">Ohio</option>
+                        <option value="OK">Oklahoma</option>
+                        <option value="OR">Oregon</option>
+                        <option value="PA">Pennsylvania</option>
+                        <option value="RI">Rhode Island</option>
+                        <option value="SC">South Carolina</option>
+                        <option value="SD">South Dakota</option>
+                        <option value="TN">Tennessee</option>
+                        <option value="TX">Texas</option>
+                        <option value="UT">Utah</option>
+                        <option value="VT">Vermont</option>
+                        <option value="VA">Virginia</option>
+                        <option value="WA">Washington</option>
+                        <option value="WV">West Virginia</option>
+                        <option value="WI">Wisconsin</option>
+                        <option value="WY">Wyoming</option>
+                    </select>
+                </div>
+                <input type="submit" value="Update" class="btn btn-primary" style="margin-top:15px">
+            </form>
+        </div>
+        <div class="col-6 p-5">
+            <h1 style="margin-bottom:15px">Current Favorite</h1>
+
+            {% for order in all %}
+            {% if session['user_id'] == order.user_id and order.id == user.favorite_order %}
+            <div class="d-flex justify-content-between">
+                <p>{{order.created_at}}</p>
+                <p>☑Favorite?</p>
+            </div>
+            <p>{{order.size}} - {{order.topping_1}}, {{order.topping_2}} ${{order.total_price}}
+            </p>
+            <p>Qty: {{order.qty}}</p>
+            <hr style="border: 0;
+            height: 3px;
+            background: #333;
+            background-image: linear-gradient(to right, lightgray, #333, lightgray);"">
+            {% endif %}
+            {% endfor %}
+
+
+            <h1 style=" margin-bottom:15px">Past Orders</h1>
+
+            {% for order in all %}
+            {% if session['user_id'] == order.user_id %}
+            <div class="d-flex justify-content-between">
+                <p>{{order.created_at}}</p>
+                <p>
+                    {% if order.user_favorite == 0 %}
+                    ☐
+                    {% endif %}
+                    {% if order.user_favorite == 1 %}
+                    ☑
+                    {% endif %}
+                    Favorite?</p>
+            </div>
+            <p>{{order.size}} - {{order.topping_1}}, {{order.topping_2}} ${{order.total_price}}
+            </p>
+            <p>Qty: {{order.qty}}</p>
+            <hr style="border: 0;
+            height: 3px;
+            background: #333;
+            background-image: linear-gradient(to right, lightgray, #333, lightgray);"">
+            {% endif %}
+            {% endfor %}
+
+
+
+
+        </div>
+    </div>
+</body>
+
+</html>
+
+<body>

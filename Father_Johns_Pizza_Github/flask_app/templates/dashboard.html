@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin=“anonymous">
+    <link rel="icon" href="{{url_for('static', filename='pizzalogo3.png')}}">
+    <title>Dashboard - Father John's Pizza</title>
+</head>
+
+<body>
+
+    <!-- NavBar with Logo and Menu -->
+    <div class="container d-flex justify-content-between">
+
+        <div class="logo"><img src="{{url_for('static', filename='pizzalogo2.png')}}" alt="Father John's Pizza Logo"
+                width="400px">
+        </div>
+
+        <div class="row g-0" style="margin-top: 40px;">
+            <div class="col">
+                <p
+                    style="border-style:solid; padding:10px;  box-shadow: 0px 5px 0px 0px; background-color: aquamarine;">
+                    <a href="/dashboard" style="text-decoration: none; color: black;">HOME</a>
+                </p>
+            </div>
+            <div class="col">
+                <p style="border-style:solid; padding:10px; box-shadow: 0 5px 0px 0px;">
+                    <!-- If order is not started, want to go to new order page. If order is started, want to go to finalize order -->
+                    {% if session['order_status'] == 'clear' %}
+                    <a href="/craft_pizza"
+                        style="text-decoration: none; color: black; overflow: hidden; white-space:nowrap">ORDER {% if
+                        session['qty'] > 0
+                        %}({{session['qty']}}){% endif %}</a>
+                    {% endif %}
+
+                    {% if session['order_status'] == 'started' %}
+                    <a href="/go_to_place_order"
+                        style="text-decoration: none; color: black; overflow: hidden; white-space:nowrap">ORDER {% if
+                        session['qty'] > 0
+                        %}({{session['qty']}}){% endif %}</a>
+                    {% endif %}
+                </p>
+            </div>
+            <div class="col">
+                <p style="border-style:solid; padding:10px; box-shadow: 0 5px 0px 0px;">
+                    <a href="/edit_user" style="text-decoration: none; color: black;">ACCOUNT</a>
+                </p>
+            </div>
+            <div class="col">
+                <p style="border-style:solid; padding:10px; box-shadow: 0 5px 0px 0px, 5px 5px 0px 0px;">
+                    <a href="/logout" style="text-decoration: none; color: black;">LOGOUT</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- End of NavBar with Logo and Menu -->
+    <div class="container d-flex">
+
+        <div class="col-4 p-5">
+        </div>
+        <div class="col-4 p-5">
+            <h1>Quick Options</h1>
+        </div>
+        <div class="col-4 p-5">
+        </div>
+    </div>
+
+    <div class="container d-flex">
+
+        <div class="col-4 p-5 m-10" style="outline: 3px solid black;">
+            <h2>New Order</h2>
+            <p>Place a new order. Customize your pizza with our selection of high-quality ingredients.</p>
+            <form action="/craft_pizza" method="get">
+                <input type="submit" value="NEW ORDER" class="btn btn-primary" style="margin-top:15px;">
+            </form>
+        </div>
+        <div class="col-4 p-5 m-10" style="outline: 3px solid black;">
+            <h2>Re-Order Your Fave</h2>
+            <p>If you've saved a favorite pizza, you can order it with just a couple easy button clicks.</p>
+            <form action="/create_favorite_session_pizza" method="get">
+                <!-- Want a hidden input here -->
+                <input type="submit" value="RE-ORDER MY FAVE" class="btn btn-primary" style="margin-top:15px;">
+            </form>
+        </div>
+        <div class="col-4 p-5 m-10" style="outline: 3px solid black;">
+            <h2>Surprise Me!</h2>
+            <p>In the mood to try something new? Let us build a pizza for you.</p>
+            <form action="/create_random_session_pizza" method="get">
+                <!-- Want a hidden input here -->
+                <input type="submit" value="SURPRISE ME" class="btn btn-primary" style="margin-top:15px;">
+            </form>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
